@@ -10,5 +10,5 @@ const firebaseApp = firebase.initializeApp({
   appId: process.env.FIREBASE_APP_ID,
 });
 
-export const database = firebaseApp.database();
+export const database = firebaseApp.firestore();
 export default firebaseApp;

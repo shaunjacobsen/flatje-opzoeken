@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/puppeteer": "^2.0.0",
+    "dotenv": "^8.2.0",
     "firebase": "^7.7.0",
     "jest": "^25.1.0",
     "jest-puppeteer": "^4.4.0",

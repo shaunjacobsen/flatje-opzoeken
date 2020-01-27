@@ -1,6 +1,6 @@
 import Browser from './../Page.js';
 
-export async function getListings(page) {
+export async function getListings() {
   try {
     return await Browser.page.$$eval(
       'li.property-list-item-container',
@@ -23,16 +23,31 @@ async function getListingData(listingId) {
         return img.getAttribute('src') || img.getAttribute('data-src');
       });
       return {
+        id: listing.getAttribute('data-property-id'),
         title: listing.querySelector('h2 a').innerText,
-        surface: listing
-          .querySelector('li.surface')
-          .innerText.replace(/[^0-9]+/gi, ''),
-        bedrooms: listing.querySelector('li.bedrooms').innerText,
-        furnished: listing.querySelector('li.furniture').innerText,
-        postcode: listing.querySelector('.details .breadcrumbs li').innerText,
-        price: listing
-          .querySelector('p.price')
-          .innerText.replace(/[^0-9]+/gi, ''),
+        surface: Number(
+          listing
+            .querySelector('li.surface')
+            .innerText.replace(/[^0-9]+/gi, '')
+            .trim(),
+        ),
+        bedrooms: Number(
+          listing
+            .querySelector('li.bedrooms')
+            .innerText.replace(/[^0-9]+/gi, '')
+            .trim(),
+        ),
+        furnished: listing.querySelector('li.furniture').innerText.trim(),
+        postcode: listing
+          .querySelector('.details .breadcrumbs li')
+          .innerText.trim(),
+        price: Number(
+          listing
+            .querySelector('p.price')
+            .innerText.replace(/[^0-9]+/gi, '')
+            .trim(),
+        ),
+        href: listing.querySelector('h2 a').getAttribute('href'),
         images,
       };
     },
@@ -45,4 +60,11 @@ export async function getDataForListings(listingIds) {
     data.push(await getListingData(listingIds[i]));
   }
   return data;
+}
+
+export async function getTotalResults() {
+  const selector = '.search-results-wrapper .header p.count';
+  await Browser.page.waitForSelector(selector);
+  const content = await Browser.page.$eval(selector, elem => elem);
+  return content.innerText;
 }
