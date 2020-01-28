@@ -79,13 +79,21 @@ async function run() {
       }
     }
 
+    if (allNewListings.length < 1) {
+      log('No new listings');
+      process.exit(0);
+    }
+
     allNewListings = _.flatten(allNewListings);
     saveListings(allNewListings);
 
     // send the email
-    await sendEmail();
+    await sendEmail({
+      listings: allNewListings,
+      metadata: { timestamp: Date.now() },
+    });
 
-    log('DONE\n', `Found ${allNewListings.length} listing(s).`, allNewListings);
+    log('DONE\n', `Found ${allNewListings.length} listing(s).`);
 
     await Browser.browser.close();
     process.exit(0);

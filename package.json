@@ -7,6 +7,7 @@
   "author": "Shaun Jacobsen",
   "license": "MIT",
   "dependencies": {
+    "@sendgrid/mail": "^6.5.1",
     "@types/puppeteer": "^2.0.0",
     "dotenv": "^8.2.0",
     "firebase": "^7.7.0",

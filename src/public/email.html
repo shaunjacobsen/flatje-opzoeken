@@ -73,9 +73,9 @@
           HEADER, FOOTER, MAIN
       ------------------------------------- */
       .main {
-        background: #000000;
+        background: #F7F9FC;
         border-radius: 3px;
-        color: #ffffff;
+        color: #000000;
         width: 100%;
       }
 
@@ -111,7 +111,7 @@
       h2,
       h3,
       h4 {
-        color: #ffffff;
+        color: #000000;
         font-family: sans-serif;
         font-weight: 400;
         line-height: 1.4;
@@ -143,7 +143,7 @@
       }
 
       a {
-        color: #f9d423;
+        color: #ff4f00;
         text-decoration: underline;
       }
 
@@ -167,10 +167,10 @@
       }
       .btn a {
         background-color: #ffffff;
-        border: solid 1px #f9d423;
+        border: solid 1px #ff4f00;
         border-radius: 5px;
         box-sizing: border-box;
-        color: #f9d423;
+        color: #ff4f00;
         cursor: pointer;
         display: inline-block;
         font-size: 14px;
@@ -182,12 +182,12 @@
       }
 
       .btn-primary table td {
-        background-color: #f9d423;
+        background-color: #ff4f00;
       }
 
       .btn-primary a {
-        background-color: #f9d423;
-        border-color: #f9d423;
+        background-color: #ff4f00;
+        border-color: #ff4f00;
         color: #000000;
       }
 
@@ -256,13 +256,6 @@
         table[class='body'] h1 {
           font-size: 28px !important;
           margin-bottom: 10px !important;
-        }
-        table[class='body'] p,
-        table[class='body'] ul,
-        table[class='body'] ol,
-        table[class='body'] td,
-        table[class='body'] span,
-        table[class='body'] a {
         }
         table[class='body'] .wrapper,
         table[class='body'] .article {
@@ -335,16 +328,14 @@
     </style>
   </head>
   <body class="">
-    <span class="preheader"
-      >This is preheader text. Some clients will show this text as a
-      preview.</span
-    >
     <table
       role="presentation"
       border="0"
       cellpadding="0"
       cellspacing="0"
       class="body"
+      bgcolor="FFFFFF"
+      style="background-color: #ffffff;"
     >
       <tr>
         <td>&nbsp;</td>
@@ -353,9 +344,9 @@
             <!-- START CENTERED WHITE CONTAINER -->
             <table role="presentation" class="main">
               <!-- START MAIN CONTENT AREA -->
-              <tr style="color:#FFFFFF;">
-                <h1 style="color:#FFFFFF;font-size:24px;margin-top:16px;">
-                  Flatje<span style="font-weight: bold; color:#f9d423;"
+              <tr style="color:#000000;">
+                <h1 style="color:#000000!important;font-size:24px;margin-top:16px;">
+                  Flatje<span style="font-weight: bold; color:#FF4F00;"
                     >Opzoeken</span
                   >
                 </h1>
@@ -367,11 +358,15 @@
                     border="0"
                     cellpadding="0"
                     cellspacing="0"
+                    bgcolor="FFFFFF"
+                    style="background-color: #ffffff;"
                   >
                     <tr>
                       <td>
-                        <p style="border-bottom: 1px solid #ffffff; padding-bottom:12px;">
-                        %%_META_%%
+                        <p
+                          style="border-bottom: 1px solid #000000; padding-bottom:12px;"
+                        >
+                          %%_META_%%
                         </p>
                         %%_RESULTS_%%
                       </td>
