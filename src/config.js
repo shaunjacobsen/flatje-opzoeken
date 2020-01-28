@@ -10,7 +10,7 @@ if (!pArgs || !pArgs.length) {
     '--no-sandbox',
     '--disable-setuid-sandbox',
     '--js-flags=--expose-gc',
-    '--shm-size=2gb'
+    '--shm-size=2gb',
   ];
 }
 
@@ -28,4 +28,4 @@ const config = {
   production: env === 'production',
 };
 
-export default config;
+module.exports = { config };

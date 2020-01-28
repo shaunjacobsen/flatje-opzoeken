@@ -1,6 +1,6 @@
-import firebase from 'firebase';
+const firebase = require('firebase');
 
-const firebaseApp = firebase.initializeApp({
+firebaseApp = firebase.initializeApp({
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.FIREBASE_DATABASE_URL,
@@ -10,5 +10,4 @@ const firebaseApp = firebase.initializeApp({
   appId: process.env.FIREBASE_APP_ID,
 });
 
-export const database = firebaseApp.firestore();
-export default firebaseApp;
+module.exports = { database: firebaseApp.firestore(), firebaseApp };

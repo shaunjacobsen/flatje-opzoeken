@@ -1,5 +1,5 @@
-import puppeteer from 'puppeteer';
-import config from './config.js';
+const puppeteer = require('puppeteer');
+const { config } = require('./config.js');
 
 class PuppeteerPage {
   /**
@@ -33,7 +33,7 @@ class PuppeteerPage {
     const page = await browser.newPage();
     const client = await page.target().createCDPSession();
 
-    page.setDefaultTimeout(5000);
+    page.setDefaultTimeout(10000);
 
     page.on('error', error => {
       console.log('PAGE ERROR', error);
@@ -47,4 +47,5 @@ class PuppeteerPage {
 }
 
 const Browser = new PuppeteerPage();
-export default Browser;
+
+module.exports = { Browser };

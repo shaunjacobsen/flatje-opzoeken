@@ -1,6 +1,6 @@
-import Browser from './../Page.js';
+const { Browser } = require('./../Page.js');
 
-export async function getListings() {
+async function getListings() {
   try {
     return await Browser.page.$$eval(
       'li.property-list-item-container',
@@ -54,7 +54,7 @@ async function getListingData(listingId) {
   );
 }
 
-export async function getDataForListings(listingIds) {
+async function getDataForListings(listingIds) {
   let data = [];
   for (let i = 0; i < listingIds.length; i++) {
     data.push(await getListingData(listingIds[i]));
@@ -62,9 +62,11 @@ export async function getDataForListings(listingIds) {
   return data;
 }
 
-export async function getTotalResults() {
+async function getTotalResults() {
   const selector = '.search-results-wrapper .header p.count';
   await Browser.page.waitForSelector(selector);
   const content = await Browser.page.$eval(selector, elem => elem);
   return content.innerText;
 }
+
+module.exports = { getListings, getTotalResults, getDataForListings };
