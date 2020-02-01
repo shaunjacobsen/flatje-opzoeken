@@ -1,3 +1,4 @@
 .env
 yarn-error*
 node_modules
+dist
