@@ -10,4 +10,5 @@ firebaseApp = firebase.initializeApp({
   appId: process.env.FIREBASE_APP_ID,
 });
 
-module.exports = { database: firebaseApp.firestore(), firebaseApp };
+const database = firebaseApp.firestore();
+module.exports = database;
