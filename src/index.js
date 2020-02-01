@@ -85,7 +85,7 @@ async function run() {
     }
 
     allNewListings = _.flatten(allNewListings);
-    saveListings(allNewListings);
+    await saveListings(allNewListings);
 
     // send the email
     await sendEmail({
