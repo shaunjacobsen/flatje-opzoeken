@@ -1,13 +1,8 @@
-const puppeteer = require('puppeteer');
 const _ = require('lodash');
 
-const { Browser } = require('./Page.js');
+const { initializeBrowser } = require('./Page.js');
 
-const {
-  getListings,
-  getDataForListings,
-  getTotalResults,
-} = require('./flows/get-listings.js');
+const { getListings, getDataForListings } = require('./flows/get-listings.js');
 const {
   saveListings,
   getRecentListingIds,
@@ -18,12 +13,12 @@ const { sendEmail } = require('./email.js');
 const baseURL =
   'https://www.pararius.com/apartments/amsterdam/0-1500/50m2/1-bedrooms/radius-5';
 
-async function fetchPageListings(existingIds) {
-  const listingIds = await getListings();
+async function fetchPageListings(existingIds, page) {
+  const listingIds = await getListings(page);
   console.log('existingIds', existingIds);
   const newListingIds = _.differenceBy(listingIds, existingIds);
   console.log('new listing ids', newListingIds);
-  const listingData = await getDataForListings(newListingIds);
+  const listingData = await getDataForListings(newListingIds, page);
   return listingData.map(listing => {
     return { ...listing, date: Date.now(), dispatched: false };
   });
@@ -51,8 +46,7 @@ async function run() {
     );
     cleanupListings(cleanupPeriod);
 
-    await Browser.initialize();
-    const page = Browser.page;
+    const { Browser, page } = await initializeBrowser();
     await page.setViewport({ height: 800, width: 1024 });
     await page.goto(baseURL);
 
@@ -64,7 +58,7 @@ async function run() {
       await page.waitForSelector('.search-results-list');
       const existingIds = await getRecentListingIds();
 
-      const thisPageNewListings = await fetchPageListings(existingIds);
+      const thisPageNewListings = await fetchPageListings(existingIds, page);
       if (thisPageNewListings && thisPageNewListings.length > 0) {
         allNewListings.push(thisPageNewListings);
       }
@@ -95,7 +89,7 @@ async function run() {
 
     log('DONE\n', `Found ${allNewListings.length} listing(s).`);
 
-    await Browser.browser.close();
+    await Browser.close();
     process.exit(0);
   } catch (error) {
     log('ERROR\n', error);

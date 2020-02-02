@@ -1,3 +1,5 @@
-const { run } = require('./src/index');
+const { run } = require('./src/index.js');
+
+run();
 
 module.exports = { run };

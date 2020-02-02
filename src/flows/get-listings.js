@@ -1,8 +1,8 @@
 const { Browser } = require('./../Page.js');
 
-async function getListings() {
+async function getListings(page) {
   try {
-    return await Browser.page.$$eval(
+    return await page.$$eval(
       'li.property-list-item-container',
       listingElems => {
         return listingElems.map(listing =>
@@ -11,12 +11,12 @@ async function getListings() {
       },
     );
   } catch (e) {
-    console.log('Could not fetch listing IDs for page', e.message);
+    console.log('Could not fetch listing IDs for page:', e.message);
   }
 }
 
-async function getListingData(listingId) {
-  return await Browser.page.$eval(
+async function getListingData(listingId, page) {
+  return await page.$eval(
     `li.property-list-item-container[data-property-id=${listingId}]`,
     listing => {
       const images = Array.from(listing.querySelectorAll('img')).map(img => {
@@ -54,10 +54,10 @@ async function getListingData(listingId) {
   );
 }
 
-async function getDataForListings(listingIds) {
+async function getDataForListings(listingIds, page) {
   let data = [];
   for (let i = 0; i < listingIds.length; i++) {
-    data.push(await getListingData(listingIds[i]));
+    data.push(await getListingData(listingIds[i], page));
   }
   return data;
 }
