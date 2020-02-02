@@ -34,67 +34,68 @@ function log() {
   );
 }
 
-async function run() {
-  try {
-    const cleanupPeriod = Date.now() - 48 * 60 * 60 * 1000;
-    log(
-      'CLEANUP',
-      'Getting rid of everything older than:',
-      cleanupPeriod,
-      '\nwhich is: ',
-      new Date(cleanupPeriod),
-    );
-    cleanupListings(cleanupPeriod);
+exports.run = url => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const cleanupPeriod = Date.now() - 48 * 60 * 60 * 1000;
+      log(
+        'CLEANUP',
+        'Getting rid of everything older than:',
+        cleanupPeriod,
+        '\nwhich is: ',
+        new Date(cleanupPeriod),
+      );
+      cleanupListings(cleanupPeriod);
 
-    const { Browser, page } = await initializeBrowser();
-    await page.setViewport({ height: 800, width: 1024 });
-    await page.goto(baseURL);
+      const searchURL = url || baseURL;
 
-    let shouldContinue = true;
+      const { Browser, page } = await initializeBrowser();
+      await page.setViewport({ height: 800, width: 1024 });
+      await page.goto(searchURL);
 
-    let allNewListings = [];
+      let shouldContinue = true;
 
-    while (shouldContinue) {
-      await page.waitForSelector('.search-results-list');
-      const existingIds = await getRecentListingIds();
+      let allNewListings = [];
 
-      const thisPageNewListings = await fetchPageListings(existingIds, page);
-      if (thisPageNewListings && thisPageNewListings.length > 0) {
-        allNewListings.push(thisPageNewListings);
+      while (shouldContinue) {
+        await page.waitForSelector('.search-results-list');
+        const existingIds = await getRecentListingIds();
+
+        const thisPageNewListings = await fetchPageListings(existingIds, page);
+        if (thisPageNewListings && thisPageNewListings.length > 0) {
+          allNewListings.push(thisPageNewListings);
+        }
+
+        await page.waitForSelector('ul.pagination');
+        const nextButton = await page.$('ul.pagination li.next');
+        if (!!nextButton) {
+          await page.click('ul.pagination li.next');
+        } else {
+          break;
+        }
       }
 
-      await page.waitForSelector('ul.pagination');
-      const nextButton = await page.$('ul.pagination li.next');
-      if (!!nextButton) {
-        await page.click('ul.pagination li.next');
-      } else {
-        break;
-        shouldContinue = false;
+      if (allNewListings.length < 1) {
+        log('No new listings');
+        return resolve();
       }
+
+      allNewListings = _.flatten(allNewListings);
+      await saveListings(allNewListings);
+
+      // send the email
+      await sendEmail({
+        listings: allNewListings,
+        metadata: { timestamp: Date.now() },
+      });
+
+      log('DONE\n', `Found ${allNewListings.length} listing(s).`);
+
+      await Browser.close();
+      return resolve();
+    } catch (error) {
+      log('ERROR\n', error);
+      return reject();
     }
-
-    if (allNewListings.length < 1) {
-      log('No new listings');
-      process.exit(0);
-    }
-
-    allNewListings = _.flatten(allNewListings);
-    await saveListings(allNewListings);
-
-    // send the email
-    await sendEmail({
-      listings: allNewListings,
-      metadata: { timestamp: Date.now() },
-    });
-
-    log('DONE\n', `Found ${allNewListings.length} listing(s).`);
-
-    await Browser.close();
-    process.exit(0);
-  } catch (error) {
-    log('ERROR\n', error);
-    process.exit(1);
-  }
-}
-
-module.exports = { run };
+  });
+};
