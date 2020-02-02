@@ -2,15 +2,18 @@
   "name": "pararius-crawler",
   "version": "0.1",
   "scripts": {
-    "start": "./src/index.js"
+    "start": "./src/index.js",
+    "fn-test": "./node_modules/.bin/env-cmd functions-framework --target=run"
   },
   "main": "index.js",
   "author": "Shaun Jacobsen",
   "license": "MIT",
   "dependencies": {
+    "@google-cloud/functions-framework": "^1.4.0",
     "@sendgrid/mail": "^6.5.1",
     "@types/puppeteer": "^2.0.0",
     "dotenv": "^8.2.0",
+    "env-cmd": "^10.0.1",
     "firebase": "^7.7.0",
     "jest": "^25.1.0",
     "jest-puppeteer": "^4.4.0",
