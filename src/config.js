@@ -19,7 +19,6 @@ if (!pExtraArgs || !pExtraArgs.length) {
 }
 
 const config = {
-  baseUrl: process.env.PARARIUS_URL || 'https://www.pararius.com/',
   headless: !(env === 'debug'),
   saveErrorScreenshots: env === 'debug' || process.env.SAVE_ERROR_SCREENSHOTS,
   visualRegressionThreshold: parseFloat(process.env.VR_THRESHOLD) || 0.5,

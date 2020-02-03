@@ -49,6 +49,8 @@ exports.run = url => {
 
       const searchURL = url || baseURL;
 
+      console.log('Search URL', searchURL);
+
       const { Browser, page } = await initializeBrowser();
       await page.setViewport({ height: 800, width: 1024 });
       await page.goto(searchURL);
