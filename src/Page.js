@@ -5,7 +5,7 @@ async function newBrowser() {
   const opts = {
     headless: config.headless,
     dumpio: config.dumpio,
-    timeout: 1000,
+    timeout: 5000,
     args: config.args,
     slowMo: 20,
   };
