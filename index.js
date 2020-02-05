@@ -6,10 +6,8 @@ exports.run = (data, context) => {
   return run(url)
     .then(() => {
       console.log('Finished');
-      // process.exit(0);
     })
-    .catch(() => {
-      console.log('Finished with problems');
-      // process.exit(1);
+    .catch(e => {
+      throw new Error('Finished with problems', e);
     });
 };

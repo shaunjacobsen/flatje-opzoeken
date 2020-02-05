@@ -5,7 +5,7 @@ async function newBrowser() {
   const opts = {
     headless: config.headless,
     dumpio: config.dumpio,
-    timeout: 5000,
+    timeout: 0,
     args: config.args,
     slowMo: 20,
   };
@@ -16,7 +16,7 @@ async function newBrowser() {
   const page = await browser.newPage();
   const client = await page.target().createCDPSession();
 
-  page.setDefaultTimeout(10000);
+  page.setDefaultTimeout(30000);
 
   page.on('error', error => {
     console.log('PAGE ERROR', error);
