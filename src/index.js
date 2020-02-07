@@ -15,9 +15,7 @@ const baseURL =
 
 async function fetchPageListings(existingIds, page) {
   const listingIds = await getListings(page);
-  console.log('existingIds', existingIds);
   const newListingIds = _.differenceBy(listingIds, existingIds);
-  console.log('new listing ids', newListingIds);
   const listingData = await getDataForListings(newListingIds, page);
   return listingData.map(listing => {
     return { ...listing, date: Date.now(), dispatched: false };
@@ -37,7 +35,7 @@ function log() {
 exports.run = url => {
   return new Promise(async (resolve, reject) => {
     try {
-      const cleanupPeriod = Date.now() - 48 * 60 * 60 * 1000;
+      const cleanupPeriod = Date.now() - 24 * 5 * 60 * 60 * 1000;
       log(
         'CLEANUP',
         'Getting rid of everything older than:',

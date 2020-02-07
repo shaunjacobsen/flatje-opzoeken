@@ -28,7 +28,6 @@ async function newBrowser() {
 
 async function initializeBrowser() {
   return await newBrowser();
-  // return { Browser, page };
 }
 
 module.exports = { initializeBrowser };
