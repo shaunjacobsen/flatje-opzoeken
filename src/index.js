@@ -11,7 +11,7 @@ const {
 const { sendEmail } = require('./email.js');
 
 const baseURL =
-  'https://www.pararius.com/apartments/amsterdam/0-1500/50m2/1-bedrooms/radius-5';
+  'https://www.pararius.com/apartments/amsterdam/0-1600/50m2/1-bedrooms/radius-5';
 
 async function fetchPageListings(existingIds, page) {
   const listingIds = await getListings(page);
@@ -35,7 +35,7 @@ function log() {
 exports.run = url => {
   return new Promise(async (resolve, reject) => {
     try {
-      const cleanupPeriod = Date.now() - 24 * 14 * 60 * 60 * 1000;
+      const cleanupPeriod = Date.now() - 24 * 30 * 60 * 60 * 1000;
       log(
         'CLEANUP',
         'Getting rid of everything older than:',
