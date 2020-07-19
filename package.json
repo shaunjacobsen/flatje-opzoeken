@@ -17,7 +17,7 @@
     "firebase": "^7.7.0",
     "jest": "^25.1.0",
     "jest-puppeteer": "^4.4.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "puppeteer": "^2.0.0"
   },
   "devDependencies": {
